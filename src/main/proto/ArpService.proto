@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+package arp;
+option csharp_namespace = "GrpcAutoGen.Arp";
+
+service Arp {
+  rpc WakeUpNotify (ArpWakeUpNotifyRequest) returns (ArpWakeUpNotifyResponse);
+  rpc HealthStateSubscribe (ArpHealthStateSubscribeRequest) returns (stream ArpHealthStateSubscribeResponse);
+}
+
+message ArpWakeUpNotifyRequest {
+  string id = 1;
+}
+
+message ArpWakeUpNotifyResponse {
+  bool result = 1;
+}
+
+message ArpHealthStateSubscribeRequest {
+  string serviceId = 1;
+  ArpServiceCollection services = 2;
+}
+
+message ArpHealthStateSubscribeResponse {
+  string id = 1;
+  ArpServiceStatus status = 2;
+}
+
+message ArpServiceCollection {
+  repeated string list = 1;
+}
+
+enum ArpServiceStatus {
+  Unknown = 0;
+  Serving = 1;
+  NotServing = 2;
+  ServiceUnknown = 3;
+}
